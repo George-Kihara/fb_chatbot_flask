@@ -1,4 +1,4 @@
 *.pyc
 .*
 #modules
-node_modules/*
+botEnv/*
