@@ -1,1 +1,3 @@
-env/botEnv
+botEnv/
+env/*
+env\botEnv
