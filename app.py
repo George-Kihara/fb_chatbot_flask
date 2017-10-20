@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 
 import requests
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
@@ -18,7 +18,7 @@ def verify():
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
 
-    return "Hello world", 200
+    return render_template("index.html")
 
 
 @app.route('/', methods=['POST'])
