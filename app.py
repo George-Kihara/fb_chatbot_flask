@@ -46,6 +46,8 @@ def webhook():
                     elif 'awesome' in message_text:
                         send_message(sender_id, "aawww, thanks for the compliment!")
                         send_button_message(sender_id, "okay?")
+                        if True:
+                            send_message(sender_id, "congrats on clicking the button")
                     else:
                         send_message(sender_id, "your message is being processed")
 
@@ -102,17 +104,10 @@ def send_button_message(recipient_id, message_text):
                 "type":"template",
                 "payload":{
                     "template_type":"button",
-                    "text": message_text,
                     "buttons":[
                     {
-                        "type":"web_url",
-                        "url":"https://www.google.com",
-                        "title":"Google"
-                    },
-                    {
                         "type":"postback",
-                        "title":"Call Postback",
-                        "payload":"Payload for send_button_message()"
+                        "title": message_text
                     }
                     ]
                 }
