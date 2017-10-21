@@ -1,4 +1,5 @@
 botEnv/
+.vscode/
 # Virtualenv
 .Python
 [Bb]in
