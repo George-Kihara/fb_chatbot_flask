@@ -45,8 +45,9 @@ def webhook():
                         send_message(sender_id, "say something else")
                     elif 'awesome' in message_text:
                         send_message(sender_id, "aawww, thanks for the compliment!")
+                        send_button_message(sender_id, "okay?")
                     else:
-                        send_button_message(sender_id, "your message has been received! Thanks")
+                        send_message(sender_id, "your message is being processed")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -85,35 +86,39 @@ def send_message(recipient_id, message_text):
 
 def send_button_message(recipient_id, message_text):
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
     headers = {
         "Content-Type": "application/json"
     }
-
     data = json.dumps({
-        "recepient": {
+        "recipient": {
             "id": recipient_id
         },
         "message": {
             "attachment": {
-                "type": "template",
+                "type":"template",
                 "payload":{
                     "template_type":"button",
-                    "text": message_text,
+                    "text":"What do you want to do next?",
                     "buttons":[
-                        {
-                            "type":"postback",
-                            "title":"Call postback",
-                            "payload":"Payload for send_button_message()"
-                        }
+                    {
+                        "type":"web_url",
+                        "url":"https://www.google.com",
+                        "title":"Google"
+                    },
+                    {
+                        "type":"postback",
+                        "title":"Call Postback",
+                        "payload":"Payload for send_button_message()"
+                    }
                     ]
                 }
             }
         }
     })
-
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
