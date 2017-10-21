@@ -46,8 +46,8 @@ def webhook():
                     elif 'awesome' in message_text:
                         send_message(sender_id, "aawww, thanks for the compliment!")
                         send_button_message(sender_id, "okay?")
-                        if True:
-                            send_message(sender_id, "congrats on clicking the button")
+                        if message_text == "okay?":
+                            send_message(sender_id, "thanks for accepting the compliment")
                     else:
                         send_message(sender_id, "your message is being processed")
 
