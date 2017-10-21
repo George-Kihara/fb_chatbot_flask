@@ -45,9 +45,8 @@ def webhook():
                         send_message(sender_id, "say something else")
                     elif 'awesome' in message_text:
                         send_message(sender_id, "aawww, thanks for the compliment!")
-                        send_button_message(sender_id, "heart u")
                     else:
-                        send_message(sender_id, "your message has been received! Thanks")
+                        send_button_message(sender_id, "your message has been received! Thanks")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
