@@ -102,7 +102,7 @@ def send_button_message(recipient_id, message_text):
                 "type":"template",
                 "payload":{
                     "template_type":"button",
-                    "text":"What do you want to do next?",
+                    "text": message_text,
                     "buttons":[
                     {
                         "type":"web_url",
