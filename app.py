@@ -18,11 +18,7 @@ def verify():
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
 
-<<<<<<< 2266c36d4f327d555e06f3f8f3454a4125a9ab46
     return render_template("index.html")
-=======
-    return "Hello guys", 200
->>>>>>> updated server
 
 
 @app.route('/', methods=['POST'])
@@ -46,7 +42,10 @@ def webhook():
 
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
-                    send_message(sender_id, "your message has been received! Thanks")
+                    elif message_text == "button":
+                        send_button_message(sender_id, "displayed button")
+                    else:
+                        send_message(sender_id, "your message is being processed")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -55,7 +54,11 @@ def webhook():
                     pass
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    pass
+                    sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
+                    recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+                    message_text = messaging_event["message"]["text"]  # the message's text
+
+                    send_message(sender_id, "thanks for clicking!")
 
     return "ok", 200
 
@@ -83,6 +86,37 @@ def send_message(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
+def send_button_message(recipient_id, message_text):
+    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type":"template",
+                "payload":{
+                    "template_type":"button",
+                    "text":message_text,
+                    "buttons":[
+                    {
+                        "type":"postback",
+                        "title":"Call Postback",
+                        "payload":"Payload for send_button_message()"
+                    }
+                    ]
+                }
+            }
+        }
+    })
 
 def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
     try:
