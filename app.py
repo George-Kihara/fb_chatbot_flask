@@ -60,15 +60,8 @@ def webhook():
 
 
 def send_message(recipient_id, message_text):
+    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text)
 
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
-    headers = {
-        "Content-Type": "application/json"
-    }
     data = json.dumps({
         "recipient": {
             "id": recipient_id
@@ -77,13 +70,42 @@ def send_message(recipient_id, message_text):
             "text": message_text
         }
     })
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
-    if r.status_code != 200:
-        log(r.status_code)
-        log(r.text)
 
-def send_button_message(recipient_id, message_text):
-    log("sending button to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+    call_send_api(data)
+
+def send_button_message(recipient_id):
+    log("sending button to {recipient}: {text}".format(recipient=recipient_id, text=message_text)
+    
+    message_data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type":"template",
+                "payload":{
+                    "template_type":"button",
+                    "text":"What do you want to do next?",
+                    "buttons":[
+                    {
+                        "type":"web_url",
+                        "url":"https://www.google.com",
+                        "title":"Google"
+                    },
+                    {
+                        "type":"postback",
+                        "title":"Call Postback",
+                        "payload":"Payload for send_button_message()"
+                    }
+                    ]
+                }
+            }
+        }
+    })
+
+    call_send_api(data)
+
+def call_send_api(data):
 
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
@@ -91,34 +113,11 @@ def send_button_message(recipient_id, message_text):
     headers = {
         "Content-Type": "application/json"
     }
-    
-    data = json.dumps({
-        "recipient": {
-            "id": recipient_id
-        },
-        "message": {
-            "attachment": {
-                "type":"template",
-                "text": message_text,
-                "payload":{
-                    "template_type":"button",
-                    "buttons":[
-                    {
-                        "type":"postback",
-                        "title":message_text,
-                        "payload":"postback"
-                    }
-                    ]
-                }
-            }
-        }
-    })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
-
-
+    
 
 def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
     try:
