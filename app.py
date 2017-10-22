@@ -51,7 +51,7 @@ def webhook():
                     pass
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    pass
+                    received_postback(messaging_event)
 
     return "ok", 200
 
@@ -69,6 +69,58 @@ def send_message(recipient_id, message_text):
         }
     })
     call_send_api(data)
+
+def send_button_message(recipient_id):
+    
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type":"template",
+                "payload":{
+                    "template_type":"button",
+                    "text":"What do you want to do next?",
+                    "buttons":[
+                    {
+                        "type":"postback",
+                        "title":"Find a bot",
+                        "payload":"find"
+                    },
+                    {
+                        "type":"postback",
+                        "title":"Do nothing",
+                        "payload":"nothing"
+                    }
+                    ]
+                }
+            }
+        }
+    })
+
+    log("sending button to {recipient}: ".format(recipient=recipient_id))
+
+    call_send_api(message_data)
+
+
+def received_postback(event):
+
+    sender_id = event["sender"]["id"]        # the facebook ID of the person sending you the message
+    recipient_id = event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+
+    # The payload param is a developer-defined field which is set in a postback
+    # button for Structured Messages
+    payload = event["postback"]["payload"]
+
+    log("received postback from {recipient} with payload {payload}".format(recipient=recipient_id, payload=payload))
+
+    if payload == 'Get Started':
+        # Get Started button was pressed
+        send_text_message(sender_id, "Welcome to SoCal Echo Bot!")
+    else:
+        # Notify sender that postback was successful
+        send_text_message(sender_id, "Postback called")
 
 def call_send_api(data):
     params = {
