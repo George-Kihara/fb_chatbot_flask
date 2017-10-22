@@ -45,9 +45,7 @@ def webhook():
                     elif message_text == "button"
                         send_button_message(sender_id, "Click on me")
                         if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                            payload = messaging_event["postback"]["payload"]
-                            if payload == "button":  # user clicked/tapped "postback" button in earlier message
-                                send_message(sender_id, "thanks for clicking")
+                            received_postback(messaging_event)
                     
                     else:
                         send_message(sender_id, "your message is being processed")
@@ -121,6 +119,24 @@ def send_button_message(recipient_id, message_text):
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
+
+def received_postback(event):
+    
+    sender_id = event["sender"]["id"]        # the facebook ID of the person sending you the message
+    recipient_id = event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+
+    # The payload param is a developer-defined field which is set in a postback
+    # button for Structured Messages
+    payload = event["postback"]["payload"]
+
+    log("received postback from {recipient} with payload {payload}".format(recipient=recipient_id, payload=payload))
+
+    if payload == 'Get Started':
+        # Get Started button was pressed
+        send_message(sender_id, "Welcome to SoCal Echo Bot! Anything you type will be echoed back to you, except for some keywords.")
+    else:
+        # Notify sender that postback was successful
+        send_message(sender_id, "Postback called")
 
 def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
     try:
