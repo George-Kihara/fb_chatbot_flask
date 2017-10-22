@@ -64,7 +64,7 @@ def webhook():
 
                     # The payload param is a developer-defined field which is set in a postback
                     # button for Structured Messages
-                    payload = event["postback"]["payload"]
+                    payload = messaging_event["postback"]["payload"]
 
                     if payload == 'Do nothing':
                         # Get Started button was pressed
