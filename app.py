@@ -39,16 +39,15 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    # The payload param is a developer-defined field which is set in a postback
-                    # button for Structured Messages
-                    payload = messaging_event["postback"]["payload"]
 
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
                     elif message_text == "button"
                         send_button_message(sender_id, "Click on me")
-                        if payload == "button":  # user clicked/tapped "postback" button in earlier message
-                            send_message(sender_id, "thanks for clicking")
+                        if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+                            payload = messaging_event["postback"]["payload"]
+                            if payload == "button":  # user clicked/tapped "postback" button in earlier message
+                                send_message(sender_id, "thanks for clicking")
                     
                     else:
                         send_message(sender_id, "your message is being processed")
