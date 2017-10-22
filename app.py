@@ -29,10 +29,6 @@ def webhook():
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
     
-    # The payload param is a developer-defined field which is set in a postback
-    # button for Structured Messages
-    payload = event["postback"]["payload"]
-
     if data["object"] == "page":
 
         for entry in data["entry"]:
@@ -43,6 +39,9 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
+                    # The payload param is a developer-defined field which is set in a postback
+                    # button for Structured Messages
+                    payload = messaging_event["postback"]["payload"]
 
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
