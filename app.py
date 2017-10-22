@@ -42,7 +42,12 @@ def webhook():
 
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
-                    send_message(sender_id, "your message has been received! Thanks")
+                    elif message_text == "button":
+                        send_button_message(sender_id)
+                    elif message_text == "bye":
+                        send_message(sender_id, "Thanks for visiting my bot")
+                    else:
+                        send_message(sender_id, "your message has been received! Thanks")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -101,7 +106,7 @@ def send_button_message(recipient_id):
 
     log("sending button to {recipient}: ".format(recipient=recipient_id))
 
-    call_send_api(message_data)
+    call_send_api(data)
 
 
 def received_postback(event):
