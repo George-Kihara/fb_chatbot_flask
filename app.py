@@ -66,9 +66,7 @@ def webhook():
                     # button for Structured Messages
                     payload = event["postback"]["payload"]
 
-                    log("received postback from {recipient} with payload {payload}".format(recipient=recipient_id, payload=payload))
-
-                    if payload == 'Get Started':
+                    if payload == 'Do nothing':
                         # Get Started button was pressed
                         send_message(sender_id, "Welcome to SoCal Echo Bot!")
                     else:
