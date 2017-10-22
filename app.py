@@ -28,6 +28,10 @@ def webhook():
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
+    
+    # The payload param is a developer-defined field which is set in a postback
+    # button for Structured Messages
+    payload = event["postback"]["payload"]
 
     if data["object"] == "page":
 
@@ -42,9 +46,9 @@ def webhook():
 
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
-                    elif message_text == "butt
+                    elif message_text == "button"
                         send_button_message(sender_id, "Click on me")
-                        if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+                        if payload == "button":  # user clicked/tapped "postback" button in earlier message
                             send_message(sender_id, "thanks for clicking")
                     
                     else:
@@ -86,7 +90,7 @@ def send_message(recipient_id, message_text):
         log(r.text)
 
 def send_button_message(recipient_id, message_text):
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+    log("sending button to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
@@ -104,7 +108,6 @@ def send_button_message(recipient_id, message_text):
                 "type":"template",
                 "payload":{
                     "template_type":"button",
-                    "text": "Whoola",
                     "buttons":[
                     {
                         "type":"postback",
