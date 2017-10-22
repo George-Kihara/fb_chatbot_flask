@@ -43,7 +43,7 @@ def webhook():
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
                     elif message_text == "button":
-                        send_button_message(sender_id, "displayed button")
+                        send_button_message(sender_id, message_text)
                     else:
                         send_message(sender_id, "your message is being processed")
 
@@ -105,12 +105,12 @@ def send_button_message(recipient_id, message_text):
                 "type":"template",
                 "payload":{
                     "template_type":"button",
-                    "text":message_text,
+                    "text": "Whoola",
                     "buttons":[
                     {
                         "type":"postback",
-                        "title":"Call Postback",
-                        "payload":"Payload for send_button_message()"
+                        "title":message_text,
+                        "payload":"postback"
                     }
                     ]
                 }
