@@ -109,7 +109,7 @@ def send_button_message(recipient_id):
     call_send_api(data)
 
 
-def received_postback(event):
+def received_postback(messaging_event):
 
     sender_id = event["sender"]["id"]        # the facebook ID of the person sending you the message
     recipient_id = event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
