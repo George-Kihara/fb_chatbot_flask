@@ -43,10 +43,7 @@ def webhook():
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
                     elif message_text == "button"
-                        send_button_message(sender_id, "Click on me")
-                        if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                            received_postback(messaging_event)
-                    
+                        send_button_message(sender_id, "Click on me")                    
                     else:
                         send_message(sender_id, "your message is being processed")
 
@@ -57,7 +54,7 @@ def webhook():
                     pass
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    pass
+                    received_postback(messaging_event)
 
     return "ok", 200
 
