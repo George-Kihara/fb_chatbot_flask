@@ -113,6 +113,7 @@ def received_postback(messaging_event):
 
     sender_id = event["sender"]["id"]        # the facebook ID of the person sending you the message
     recipient_id = event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+    message_text = messaging_event["message"]["text"]  # the message's text
 
     # The payload param is a developer-defined field which is set in a postback
     # button for Structured Messages
@@ -122,10 +123,10 @@ def received_postback(messaging_event):
 
     if payload == 'Get Started':
         # Get Started button was pressed
-        send_text_message(sender_id, "Welcome to SoCal Echo Bot!")
+        send_message(sender_id, "Welcome to SoCal Echo Bot!")
     else:
         # Notify sender that postback was successful
-        send_text_message(sender_id, "Postback called")
+        send_message(sender_id, "Postback called")
 
 def call_send_api(data):
     params = {
