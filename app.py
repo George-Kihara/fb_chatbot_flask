@@ -56,22 +56,7 @@ def webhook():
                     pass
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    sender_id = event["sender"]["id"]        # the facebook ID of the person sending you the message
-                    recipient_id = event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    message_text = messaging_event["message"]["text"]  # the message's text
-
-                    send_message(sender_id, "trying to work")
-
-                    # The payload param is a developer-defined field which is set in a postback
-                    # button for Structured Messages
-                    payload = event["postback"]["payload"]
-
-                    if payload == 'Do nothing':
-                        # Get Started button was pressed
-                        send_message(sender_id, "Welcome to SoCal Echo Bot!")
-                    else:
-                        # Notify sender that postback was successful
-                        send_message(sender_id, "Postback called")
+                    received_postback(messaging_event)
 
     return "ok", 200
 
@@ -124,11 +109,10 @@ def send_button_message(recipient_id):
     call_send_api(data)
 
 
-def received_postback(messaging_event):
+def received_postback(event):
 
     sender_id = event["sender"]["id"]        # the facebook ID of the person sending you the message
     recipient_id = event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-    message_text = messaging_event["message"]["text"]  # the message's text
 
     # The payload param is a developer-defined field which is set in a postback
     # button for Structured Messages
