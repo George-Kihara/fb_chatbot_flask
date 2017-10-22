@@ -117,6 +117,10 @@ def send_button_message(recipient_id, message_text):
             }
         }
     })
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
 
 def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
     try:
