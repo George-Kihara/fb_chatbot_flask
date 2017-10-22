@@ -44,6 +44,8 @@ def webhook():
                         send_message(sender_id, "hi too, welcome on board")
                     elif message_text == "button":
                         send_button_message(sender_id)
+                        if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+                            received_postback(messaging_event)
                     elif message_text == "bye":
                         send_message(sender_id, "Thanks for visiting my bot")
                     else:
@@ -91,12 +93,12 @@ def send_button_message(recipient_id):
                     {
                         "type":"postback",
                         "title":"Find a bot",
-                        "payload":"find"
+                        "payload":"find()"
                     },
                     {
                         "type":"postback",
                         "title":"Do nothing",
-                        "payload":"nothing"
+                        "payload":"nothing()"
                     }
                     ]
                 }
