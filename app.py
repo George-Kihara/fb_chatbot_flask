@@ -121,9 +121,11 @@ def received_postback(event):
     log("received postback from {recipient} with payload {payload}".format(recipient=recipient_id, payload=payload))
 
     if payload == 'Get Started':
+        message_text = messaging_event["message"]["text"]  # the message's text
         # Get Started button was pressed
         send_message(sender_id, "Welcome to SoCal Echo Bot!")
     else:
+        message_text = messaging_event["message"]["text"]  # the message's text
         # Notify sender that postback was successful
         send_message(sender_id, "Postback called")
 
