@@ -43,7 +43,7 @@ def webhook():
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
                     elif message_text == "button"
-                        send_button_message(sender_id, "Click on me")                    
+                        send_button_message(sender_id)                    
                     else:
                         send_message(sender_id, "your message is being processed")
 
