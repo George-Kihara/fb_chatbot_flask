@@ -28,7 +28,7 @@ def webhook():
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
-
+    
     if data["object"] == "page":
 
         for entry in data["entry"]:
@@ -42,7 +42,10 @@ def webhook():
 
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
-                    send_message(sender_id, "your message has been received! Thanks")
+                    elif message_text == "button"
+                        send_button_message(sender_id, "Click on me")                    
+                    else:
+                        send_message(sender_id, "your message is being processed")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -78,6 +81,43 @@ def send_message(recipient_id, message_text):
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
+
+def send_button_message(recipient_id, message_text):
+    log("sending button to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type":"template",
+                "text": message_text,
+                "payload":{
+                    "template_type":"button",
+                    "buttons":[
+                    {
+                        "type":"postback",
+                        "title":message_text,
+                        "payload":"postback"
+                    }
+                    ]
+                }
+            }
+        }
+    })
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
+
 
 
 def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
