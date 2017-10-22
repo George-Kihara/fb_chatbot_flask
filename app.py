@@ -28,7 +28,7 @@ def webhook():
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
-    
+
     if data["object"] == "page":
 
         for entry in data["entry"]:
@@ -42,10 +42,7 @@ def webhook():
 
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
-                    elif message_text == "button"
-                        send_button_message(sender_id)                    
-                    else:
-                        send_message(sender_id, "your message is being processed")
+                    send_message(sender_id, "your message has been received! Thanks")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -60,7 +57,8 @@ def webhook():
 
 
 def send_message(recipient_id, message_text):
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text)
+
+    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
     data = json.dumps({
         "recipient": {
@@ -70,43 +68,9 @@ def send_message(recipient_id, message_text):
             "text": message_text
         }
     })
-
-    call_send_api(data)
-
-def send_button_message(recipient_id):
-    log("sending button to {recipient}: {text}".format(recipient=recipient_id, text=message_text)
-    
-    message_data = json.dumps({
-        "recipient": {
-            "id": recipient_id
-        },
-        "message": {
-            "attachment": {
-                "type":"template",
-                "payload":{
-                    "template_type":"button",
-                    "text":"What do you want to do next?",
-                    "buttons":[
-                    {
-                        "type":"web_url",
-                        "url":"https://www.google.com",
-                        "title":"Google"
-                    },
-                    {
-                        "type":"postback",
-                        "title":"Call Postback",
-                        "payload":"Payload for send_button_message()"
-                    }
-                    ]
-                }
-            }
-        }
-    })
-
     call_send_api(data)
 
 def call_send_api(data):
-
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
