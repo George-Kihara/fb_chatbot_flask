@@ -53,6 +53,7 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
+                    payload = {'recipient': {'id': sender_id}, 'message': {'text': "Hello World"}} # We're going to send this back
 
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
