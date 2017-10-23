@@ -7,7 +7,7 @@ import requests
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
-token = "EAAB6qIdYmpUBAGlpwW0JtZAairH7u7xXXrI7sVbHDSReBl3xAYmdQOhDaAP7LIZBZBRZCtaNxPOTCciUcbEOvgZCyTukln5lcGzntDymCo7rMI8EmZAIBAvZCAono70D2hGSeVBOvlRgGYOCUTg6k7TKM3ie8x9FAyDSGjwNkRzEAZDZD"
+
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -25,11 +25,6 @@ def verify():
 def webhook():
 
     # endpoint for processing incoming messaging events
-    data = json.loads(request.data)
-    text = data['entry'][0]['messaging'][0]['message']['text'] # Incoming Message Text
-    sender = data['entry'][0]['messaging'][0]['sender']['id'] # Sender ID
-    payload = {'recipient': {'id': sender}, 'message': {'text': "Hello World"}} # We're going to send this back
-    r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload) # Lets send it
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
@@ -42,9 +37,7 @@ def webhook():
                 recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                 message_text = messaging_event["message"]["text"]  # the message's text
 
-                if messaging_event.get("message"):  # someone sent us a message
-
-                    
+                if messaging_event.get("message"):  # someone sent us a message                    
 
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
@@ -62,8 +55,10 @@ def webhook():
                     pass
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    received_postback(event)
-                        
+                    if message_text == "hi":
+                        send_message(sender_id, "hi too, welcome on board")
+                    else:
+                        send_button_message(sender_id)
                         
 
     return "ok", 200
