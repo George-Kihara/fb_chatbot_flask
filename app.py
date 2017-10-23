@@ -28,8 +28,22 @@ def webhook():
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
+  
 
     if data["object"] == "page":
+        formData = {
+            "get_started":[
+                {
+                "payload":"USER_DEFINED_PAYLOAD"
+                }
+            ]
+        }
+
+        curl -X POST -H "Content-Type: application/json" -d '{
+            "get_started":{
+                "payload":"GET_STARTED_PAYLOAD"
+                }
+                }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=PAGE_ACCESS_TOKEN"
 
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
