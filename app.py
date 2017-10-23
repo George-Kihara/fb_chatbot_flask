@@ -20,7 +20,6 @@ def verify():
 
     return render_template("index.html")
 
-
 @app.route('/', methods=['POST'])
 def webhook():
 
@@ -60,7 +59,9 @@ def webhook():
                     pass
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    received_postback(messaging_event)
+                    sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
+                    recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+                    received_postback(sender_id)
                         
                         
 
@@ -115,7 +116,7 @@ def send_button_message(recipient_id):
     call_send_api(data)
 
 
-def received_postback(event):
+def received_postback(recipient_id):
 
     sender_id = event["sender"]["id"]        # the facebook ID of the person sending you the message
     recipient_id = event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
