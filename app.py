@@ -31,29 +31,16 @@ def webhook():
   
 
     if data["object"] == "page":
-        
+        sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
+        recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+        message_text = messaging_event["message"]["text"]  # the message's tex
+        send_button_message(sender_id)
 
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
 
                 if messaging_event.get("message"):  # someone sent us a message
-
-                    sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
-                    recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    message_text = messaging_event["message"]["text"]  # the message's text
-                    data = {
-                        "get_started":[
-                            {
-                            "payload":"USER_DEFINED_PAYLOAD"
-                            }
-                        ]
-                    }
-
-                    curl -X POST -H "Content-Type: application/json" -d '{
-                        "get_started":{
-                            "payload":"GET_STARTED_PAYLOAD"
-                            }
-                            }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=PAGE_ACCESS_TOKEN"                   
+t                 
 
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
