@@ -20,6 +20,7 @@ def verify():
 
     return render_template("index.html")
 
+
 @app.route('/', methods=['POST'])
 def webhook():
 
@@ -43,10 +44,6 @@ def webhook():
                         send_message(sender_id, "hi too, welcome on board")
                     elif message_text == "button":
                         send_button_message(sender_id)
-                        if message_text == "Find a bot":
-                            send_message(sender_id, "cool")
-                        else:
-                            send_message(sender_id, "cooler")
                     elif message_text == "bye":
                         send_message(sender_id, "Thanks for visiting my bot")
                     else:
@@ -59,9 +56,7 @@ def webhook():
                     pass
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
-                    recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    received_postback(sender_id)
+                    received_postback("nothing")
                         
                         
 
@@ -116,7 +111,7 @@ def send_button_message(recipient_id):
     call_send_api(data)
 
 
-def received_postback(recipient_id):
+def received_postback(event):
 
     sender_id = event["sender"]["id"]        # the facebook ID of the person sending you the message
     recipient_id = event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
