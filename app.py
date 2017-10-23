@@ -7,7 +7,7 @@ import requests
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
-
+token = "EAAB6qIdYmpUBAGlpwW0JtZAairH7u7xXXrI7sVbHDSReBl3xAYmdQOhDaAP7LIZBZBRZCtaNxPOTCciUcbEOvgZCyTukln5lcGzntDymCo7rMI8EmZAIBAvZCAono70D2hGSeVBOvlRgGYOCUTg6k7TKM3ie8x9FAyDSGjwNkRzEAZDZD"
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -25,6 +25,11 @@ def verify():
 def webhook():
 
     # endpoint for processing incoming messaging events
+    data = json.loads(request.data)
+    text = data['entry'][0]['messaging'][0]['message']['text'] # Incoming Message Text
+    sender = data['entry'][0]['messaging'][0]['sender']['id'] # Sender ID
+    payload = {'recipient': {'id': sender}, 'message': {'text': "Hello World"}} # We're going to send this back
+    r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload) # Lets send it
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
