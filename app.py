@@ -25,6 +25,8 @@ def verify():
 def webhook():
 
     # endpoint for processing incoming messaging events
+    payload = {'recipient': {'id': sender}, 'message': {'text': "Hello World"}} # We're going to send this back
+    r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=PAGE_ACCESS_TOKEN', json=payload) # Lets send it
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
@@ -32,9 +34,6 @@ def webhook():
     if data["object"] == "page":
 
         for entry in data["entry"]:
-            sender_id = entry["sender"]["id"]        # the facebook ID of the person sending you the message
-            recipient_id = entry["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-            send_button_message(sender_id)
             for messaging_event in entry["messaging"]:
                 sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                 recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
