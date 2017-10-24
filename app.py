@@ -30,8 +30,7 @@ def webhook():
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
     if data["object"] == "page":
-        set_greeting_message()
-
+        
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
                 sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
@@ -41,6 +40,8 @@ def webhook():
                 if messaging_event.get("message"):  # someone sent us a message
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
+                        set_greeting_message()
+                        
                     elif message_text == "button":
                         send_button_message(sender_id)
                     elif message_text == "bye":
