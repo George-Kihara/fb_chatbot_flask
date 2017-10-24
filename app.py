@@ -42,38 +42,51 @@ def webhook():
                         send_message(sender_id, "hi too, welcome on board")
                     elif message_text == "button":
                         send_button_message(sender_id)
+                    elif message_text == "Find a bot":
+                        send_message(sender_id, "successful")
                     elif message_text == "bye":
                         send_message(sender_id, "Thanks for visiting my bot")
                     else:
                         send_message(sender_id, "your message has been received! Thanks")
 
-                elif messaging_event.get("delivery"):  # delivery confirmation
+                if messaging_event.get("delivery"):  # delivery confirmation
                     pass
 
-                elif messaging_event.get("optin"):  # optin confirmation
+                if messaging_event.get("optin"):  # optin confirmation
                     pass
 
-                elif messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+                if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     received_postback(event)
                         
                         
 
     return "ok", 200
 
-def set_greeting_message(recipient_id):
+def set_greeting_message():
     #set greeting message on welcome screen
     log("sending message to {recipient}: {text}".format(recipient=recipient_id))
 
     data = json.dumps({
-        "recipient": {
-            "id": recipient_id
-        },
         "setting_type":"greeting",
-        "message":{
+        "greeting":{
             "text":"Hi {{user_first_name}}, welcome to this bot."
         }
     })
-    call_send_api(api)
+    
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    r = requests.post("https://graph.facebook.com/v2.6/me/thread_settings", params=params, headers=headers, data=message_data)
+    if r.status_code != 200:
+        log("setting greeting text")
+        log(r.status_code)
+        log(r.text)
+
+    return "ok", 200
 
 def send_message(recipient_id, message_text):
 
