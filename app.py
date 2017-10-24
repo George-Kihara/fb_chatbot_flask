@@ -21,7 +21,16 @@ def verify():
     return render_template("index.html")
 
 
-@app.route('/', methods=['POST'])  
+@app.route('/', methods=['POST'])
+def set_greeting_text():
+     # Sets greeting text on welcome screen
+     data = json.dumps({
+       "setting_type":"greeting",
+       "greeting":{
+           "text":"Hi {{user_first_name}}, welcome to this bot."
+      }
+    call_send_api(data)
+    
 def webhook():
 
     # endpoint for processing incoming messaging events
