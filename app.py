@@ -40,7 +40,6 @@ def webhook():
                 if messaging_event.get("message"):  # someone sent us a message
                     if message_text == "hi":
                         send_message(sender_id, "hi too, welcome on board")
-                        set_greeting_message(sender_id)
                     elif message_text == "button":
                         send_button_message(sender_id)
                     elif message_text == "bye":
