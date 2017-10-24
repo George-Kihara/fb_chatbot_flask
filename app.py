@@ -21,16 +21,7 @@ def verify():
     return render_template("index.html")
 
 
-@app.route('/', methods=['POST'])
-def set_greeting_text():
-     # Sets greeting text on welcome screen
-     data = json.dumps({
-       "setting_type":"greeting",
-       "greeting":{
-           "text":"Hi {{user_first_name}}, welcome to this bot."
-      }
-    call_send_api(data)
-    
+@app.route('/', methods=['POST']:    
 def webhook():
 
     # endpoint for processing incoming messaging events
@@ -38,7 +29,7 @@ def webhook():
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
     if data["object"] == "page":
-
+        set_greeting_text()
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
                 sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
@@ -68,6 +59,14 @@ def webhook():
 
     return "ok", 200
 
+def set_greeting_text():
+     # Sets greeting text on welcome screen
+     data = json.dumps({
+       "setting_type":"greeting",
+       "greeting":{
+           "text":"Hi {{user_first_name}}, welcome to this bot."
+      }
+    call_send_api(data)
 
 def send_message(recipient_id, message_text):
 
