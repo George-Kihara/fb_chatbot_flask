@@ -60,6 +60,7 @@ def webhook():
 
     return "ok", 200
 
+@app.route('/', methods=['POST'])
 def set_greeting_text():
     # Sets greeting text on welcome screen
     data = json.dumps({
