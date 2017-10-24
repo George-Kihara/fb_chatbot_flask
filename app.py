@@ -23,9 +23,31 @@ def verify():
 
 @app.route('/', methods=['POST'])
 def webhook():
+    #set greeting message on welcome screen
+
+    data = json.dumps({
+        "setting_type":"greeting",
+        "greeting":{
+            "text":"Hi {{user_first_name}}, welcome to this bot."
+        }
+    })
+    
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    r = requests.post("https://graph.facebook.com/v2.6/me/thread_settings", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log("setting greeting text")
+        log(r.status_code)
+        log(r.text)
+
+    return "ok", 200
     
     # endpoint for processing incoming messaging events
-    set_greeting_message()
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
