@@ -24,7 +24,7 @@ def verify():
 @app.route('/', methods=['POST'])
 def set_get_started_button():
     # Sets get started button on welcome screen
-    message_data = json.dumps({
+    data = json.dumps({
         "setting_type":"call_to_actions",
         "thread_state":"new_thread",
         "call_to_actions":[
@@ -40,7 +40,7 @@ def set_get_started_button():
         "Content-Type": "application/json"
     }
   
-    r = requests.post("https://graph.facebook.com/v2.6/me/thread_settings", params=params, headers=headers, data=message_data)
+    r = requests.post("https://graph.facebook.com/v2.6/me/thread_settings", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log("setting get started button")
         log(r.status_code)
