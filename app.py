@@ -97,7 +97,8 @@ def send_button_message(recipient_id):
                         "type":"postback",
                         "title":"Do nothing",
                         "payload":"nothing()"
-                    }, 
+                    }
+                    ], 
                     {
                         "title": "Second card",
                         "subtitle": "Element #2 of an hscroll",
@@ -106,8 +107,8 @@ def send_button_message(recipient_id):
                             "type": "postback",
                             "title": "Think about it",
                             "payload": "Payload for second element in a generic bubble",
-				    }
-                    ]
+				        }]
+                    }
                 }
             }
         }
