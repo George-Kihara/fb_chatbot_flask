@@ -30,6 +30,7 @@ def webhook():
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
     if data["object"] == "page":
+        set_greeting_message()
 
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
@@ -60,7 +61,15 @@ def webhook():
 
     return "ok", 200
 
-
+def set_greeting_message():
+    #set greeting message on welcome screen
+    data = json.dumps({
+        "setting_type":"greeting",
+        "greeting":{
+            "text":"Hi {{user_first_name}}, welcome to this bot."
+        }
+    })
+    call_send_api(api)
 
 def send_message(recipient_id, message_text):
 
