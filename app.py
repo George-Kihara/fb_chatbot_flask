@@ -78,7 +78,7 @@ def set_greeting_message():
         "Content-Type": "application/json"
     }
     
-    r = requests.post("https://graph.facebook.com/v2.6/me/thread_settings", params=params, headers=headers, data=message_data)
+    r = requests.post("https://graph.facebook.com/v2.6/me/thread_settings", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log("setting greeting text")
         log(r.status_code)
