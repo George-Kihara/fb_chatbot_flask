@@ -48,13 +48,13 @@ def webhook():
                     else:
                         send_message(sender_id, "your message has been received! Thanks")
 
-                if messaging_event.get("delivery"):  # delivery confirmation
+                elif messaging_event.get("delivery"):  # delivery confirmation
                     pass
 
-                if messaging_event.get("optin"):  # optin confirmation
+                elif messaging_event.get("optin"):  # optin confirmation
                     pass
 
-                if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+                elif messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     received_postback(event)
                         
                         
@@ -70,7 +70,7 @@ def set_greeting_message(recipient_id):
             "id": recipient_id
         },
         "setting_type":"greeting",
-        "greeting":{
+        "message":{
             "text":"Hi {{user_first_name}}, welcome to this bot."
         }
     })
