@@ -25,7 +25,7 @@ def verify():
 def webhook():
 
     # endpoint for processing incoming messaging events
-
+    set_greeting_text()
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
