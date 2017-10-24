@@ -59,14 +59,6 @@ def webhook():
 
     return "ok", 200
 
-def set_greeting_text():
-     # Sets greeting text on welcome screen
-     data = json.dumps({
-       "setting_type":"greeting",
-       "greeting":{
-           "text":"Hi {{user_first_name}}, welcome to this bot."
-      }
-    call_send_api(data)
 
 def send_message(recipient_id, message_text):
 
