@@ -311,7 +311,7 @@ def received_postback(event):
 
     if payload == 'Get Started':
         # Get Started button was pressed
-        send_essage(sender_id, "Welcome to SoCal Echo Bot! Anything you type will be echoed back to you, except for some keywords.")
+        send_message(sender_id, "Welcome to SoCal Echo Bot! Anything you type will be echoed back to you, except for some keywords.")
     else:
         # Notify sender that postback was successful
         send_message(sender_id, "Postback called")
