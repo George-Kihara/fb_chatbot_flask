@@ -22,9 +22,93 @@ def verify():
 
 
 @app.route('/', methods=['POST'])
-
-
 def webhook():
+    # endpoint for processing incoming messaging events
+
+    data = request.get_json()
+    log(data)  # you may not want to log every incoming message in production, but it's good for testing
+
+    if data["object"] == "page":   # make sure this is a page subscription
+
+        for entry in data["entry"]:
+            for messaging_event in entry["messaging"]:
+
+                if messaging_event.get("message"):     # someone sent us a message
+                    received_message(messaging_event)
+
+                elif messaging_event.get("delivery"):  # delivery confirmation
+                    pass
+                    # received_delivery_confirmation(messaging_event)
+
+                elif messaging_event.get("optin"):     # optin confirmation
+                    pass
+                    # received_authentication(messaging_event)
+
+                elif messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+                    received_postback(messaging_event)
+
+                else:    # uknown messaging_event
+                    log("Webhook received unknown messaging_event: " + messaging_event)
+
+    return "ok", 200
+
+def received_message(event):
+    
+    sender_id = event["sender"]["id"]        # the facebook ID of the person sending you the message
+    recipient_id = event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+    
+    # could receive text or attachment but not both
+    if "text" in event["message"]:
+        message_text = event["message"]["text"]
+
+        # parse message_text and give appropriate response   
+        if message_text == 'image':
+            send_image_message(sender_id)
+
+        elif message_text == 'file':
+            send_file_message(sender_id)
+
+        elif message_text == 'audio':
+            send_audio_message(sender_id)
+
+        elif message_text == 'video':
+            send_video_message(sender_id)
+
+        elif message_text == 'button':
+            send_button_message(sender_id)
+
+        elif message_text == 'generic':
+            send_generic_message(sender_id)
+
+        elif message_text == 'share':
+            send_share_message(sender_id)
+
+        else: # default case
+            send_message(sender_id, "Echo: " + message_text)
+
+    elif "attachments" in event["message"]:
+        message_attachments = event["message"]["attachments"]   
+        send_text_message(sender_id, "Message with attachment received")
+
+
+# Message event functions
+def send_text_message(recipient_id, message_text):
+
+    # encode('utf-8') included to log emojis to heroku logs
+    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text.encode('utf-8')))
+
+    message_data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "text": message_text
+        }
+    })
+
+    call_send_api(data)
+
+def send_greeting():
     #set greeting message on welcome screen
     log("sending message to {recipient}: {text}".format(recipient=recipient_id))
 
