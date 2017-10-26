@@ -45,7 +45,7 @@ def webhook():
                     # received_authentication(messaging_event)
 
                 elif messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    received_postback(messaging_event)
+                    send_greeting()
 
                 else:    # uknown messaging_event
                     log("Webhook received unknown messaging_event: " + messaging_event)
