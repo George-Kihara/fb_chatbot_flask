@@ -45,7 +45,7 @@ def webhook():
                     # received_authentication(messaging_event)
 
                 elif messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    send_greeting()
+                    received_postback(messaging_event)
 
                 else:    # uknown messaging_event
                     log("Webhook received unknown messaging_event: " + messaging_event)
@@ -290,17 +290,17 @@ def received_postback(event):
 
     # The payload param is a developer-defined field which is set in a postback
     # button for Structured Messages
-    payload = event["postback"]["payload"]
+    if "postback" in event["payload"]:
+        payload = event["postback"]["payload"]
 
-    log("received postback from {recipient} with payload {payload}".format(recipient=recipient_id, payload=payload))
+        if payload == 'Get Started':
+            # Get Started button was pressed
+            send_message(sender_id, "Welcome to SoCal Echo Bot! Anything you type will be echoed back to you, except for some keywords.")
+        else:
+            # Notify sender that postback was successful
+            send_message(sender_id, "Postback called")
 
-    if payload == 'Get Started':
-        # Get Started button was pressed
-        send_message(sender_id, "Welcome to SoCal Echo Bot! Anything you type will be echoed back to you, except for some keywords.")
-    else:
-        # Notify sender that postback was successful
-        send_message(sender_id, "Postback called")
-
+    
 def call_send_api(data):
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
