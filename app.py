@@ -290,15 +290,14 @@ def received_postback(event):
 
     # The payload param is a developer-defined field which is set in a postback
     # button for Structured Messages
-    if "postback" in event["payload"]:
-        payload = event["postback"]["payload"]
+    payload = event["postback"]["payload"]
 
-        if payload == 'Get Started':
-            # Get Started button was pressed
-            send_message(sender_id, "Welcome to SoCal Echo Bot! Anything you type will be echoed back to you, except for some keywords.")
-        else:
-            # Notify sender that postback was successful
-            send_message(sender_id, "Postback called")
+    if payload == 'Get Started':
+        # Get Started button was pressed
+        send_message(sender_id, "Welcome to SoCal Echo Bot! Anything you type will be echoed back to you, except for some keywords.")
+    else:
+        # Notify sender that postback was successful
+        send_message(sender_id, "Postback called")
 
     
 def call_send_api(data):
