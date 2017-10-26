@@ -181,6 +181,122 @@ def send_button_message(recipient_id):
 
     call_send_api(data)
 
+def send_image_message(recipient_id):
+    
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type":"image",
+                "payload":{
+                    "url":"http://i.imgur.com/76rJlO9.jpg"
+                }
+            }
+        }
+    })
+
+    log("sending image to {recipient}: ".format(recipient=recipient_id))
+
+    call_send_api(data)
+
+def send_file_message(recipient_id):
+    
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type":"file",
+                "payload":{
+                    "url":"http://ee.usc.edu/~redekopp/ee355/EE355_Syllabus.pdf"
+                }
+            }
+        }
+    })
+
+    log("sending file to {recipient}: ".format(recipient=recipient_id))
+
+    call_send_api(data)
+
+
+def send_audio_message(recipient_id):
+
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type":"audio",
+                "payload":{
+                    "url":"http://www.stephaniequinn.com/Music/Allegro%20from%20Duet%20in%20C%20Major.mp3"
+                }
+            }
+        }
+    })
+
+    log("sending audio to {recipient}: ".format(recipient=recipient_id))
+
+    call_send_api(data)
+
+
+def send_video_message(recipient_id):
+
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type":"video",
+                "payload":{
+                    "url":"http://techslides.com/demos/sample-videos/small.mp4"
+                }
+            }
+        }
+    })
+
+    log("sending video to {recipient}: ".format(recipient=recipient_id))
+
+    call_send_api(data)
+
+def send_share_message(recipient_id):
+    
+    # Share button only works with Generic Template
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type":"template",
+                "payload":{
+                    "template_type":"generic",
+                    "elements":[
+                    {
+                        "title":"Reddit link",
+                        "subtitle":"Something funny or interesting",
+                        "image_url":"https://pbs.twimg.com/profile_images/667516091330002944/wOaS8FKS.png",
+                        "buttons":[
+                        {
+                            "type":"element_share"
+                        }
+                        ]
+                    }    
+                    ]
+                }
+        
+            }
+        }
+    })
+
+    log("sending share button to {recipient}: ".format(recipient=recipient_id))
+
+    call_send_api(data)
+
 
 def received_postback(event):
 
@@ -194,11 +310,9 @@ def received_postback(event):
     log("received postback from {recipient} with payload {payload}".format(recipient=recipient_id, payload=payload))
 
     if payload == 'Get Started':
-        message_text = messaging_event["message"]["text"]  # the message's text
         # Get Started button was pressed
-        send_message(sender_id, "Welcome to SoCal Echo Bot!")
+        send_essage(sender_id, "Welcome to SoCal Echo Bot! Anything you type will be echoed back to you, except for some keywords.")
     else:
-        message_text = messaging_event["message"]["text"]  # the message's text
         # Notify sender that postback was successful
         send_message(sender_id, "Postback called")
 
