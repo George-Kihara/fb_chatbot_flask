@@ -203,6 +203,42 @@ def send_button_category(recipient_id):
 
     call_send_api(data)
 
+def send_button_community(recipient_id):
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type":"template",
+                "payload":{
+                    "template_type":"button",
+                    "text":"Here is the list of community bots",
+                    "buttons":[
+                    {
+                        "type":"web_url",
+                        "url":"https://m.me/Comrades_nature",
+                        "title":"Comrades_nature"
+                    },
+                    {
+                        "type":"web_url",
+                        "title":"https://m.me/Botstore",
+                        "payload":"Botstore"
+                    },
+                    {
+                        "type":"web_url",
+                        "title":"Ggflaskbot",
+                        "payload":"https://m.me/Ggflaskbot"
+                    }
+                    ]
+                }
+            }
+        }
+    })
+
+    log("sending community button to {recipient}: ".format(recipient=recipient_id))
+
+    call_send_api(data)
 
 def send_image_message(recipient_id):
     
@@ -336,6 +372,8 @@ def received_postback(event):
         send_image_message(sender_id)
     elif payload == 'Find a bot':
         send_button_category(sender_id)
+    elif payload == 'Community':
+        send_button_community(sender_id)
     elif payload == 'Games':
         send_button_category(sender_id)
     else:
