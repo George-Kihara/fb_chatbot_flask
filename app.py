@@ -250,7 +250,7 @@ def send_image_message(recipient_id):
             "attachment": {
                 "type":"image",
                 "payload":{
-                    "url":"http://i.imgur.com/76rJlO9.jpg"
+                    "url":"https://ibb.co/eKRfLm"
                 }
             }
         }
