@@ -215,7 +215,7 @@ def send_image_message(recipient_id):
                 "type":"image",
                 "payload":{
                     "subtitle":"Welcome home",
-                    "url":"http://i.imgur.com/76rJlO9.jpg""
+                    "url":"http://i.imgur.com/76rJlO9.jpg"
                 }
             }
         }
