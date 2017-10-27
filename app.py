@@ -252,32 +252,24 @@ def send_generic_message(recipient_id):
                 "payload": {
                     "template_type": "generic",
                     "elements": [{
-                        "title": "rift",
-                        "subtitle": "Next-generation virtual reality",
-                        "item_url": "https://www.oculus.com/en-us/rift/",               
-                        "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+                        "title": "Comrades_nature",
+                        "subtitle": "A bot to help comrades solve their nature problems",
+                        "item_url": "https://m.me/Comrades_nature",               
+                        "image_url": "",
                         "buttons": [{
                             "type": "web_url",
-                            "url": "https://www.oculus.com/en-us/rift/",
-                            "title": "Open Web URL"
-                        }, {
-                            "type": "postback",
-                            "title": "Call Postback",
-                            "payload": "Payload for first bubble",
+                            "url": "https://m.me/Comrades_nature",
+                            "title": "Visit the bot"
                         }],
                     }, {
-                        "title": "touch",
-                        "subtitle": "Your Hands, Now in VR",
-                        "item_url": "https://www.oculus.com/en-us/touch/",               
-                        "image_url": "http://messengerdemo.parseapp.com/img/touch.png",
+                        "title": "Botstore",
+                        "subtitle": "Find all bots on facebook",
+                        "item_url": "https://m.me/Botstore",               
+                        "image_url": "",
                         "buttons": [{
                             "type": "web_url",
-                            "url": "https://www.oculus.com/en-us/touch/",
-                            "title": "Open Web URL"
-                        }, {
-                            "type": "postback",
-                            "title": "Call Postback",
-                            "payload": "Payload for second bubble",
+                            "url": "https://m.me/Botstore",
+                            "title": "Visit the bot"
                         }]
                     }]
                 }
@@ -422,7 +414,7 @@ def received_postback(event):
     elif payload == 'Find a bot':
         send_button_category(sender_id)
     elif payload == 'Community':
-        send_button_community(sender_id)
+        send_generic_message(sender_id)
     elif payload == 'Games':
         send_button_category(sender_id)
     else:
