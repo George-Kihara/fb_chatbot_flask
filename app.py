@@ -176,7 +176,7 @@ def send_image_message(recipient_id):
             "attachment": {
                 "type":"image",
                 "payload":{
-                    "url":"http://i.imgur.com/76rJlO9.jpg"
+                    "url":"./static/images/arena.jpeg"
                 }
             }
         }
@@ -294,7 +294,10 @@ def received_postback(event):
 
     if payload == 'Get Started':
         # Get Started button was pressed
-        send_message(sender_id, "Welcome to SoCal Echo Bot! Anything you type will be echoed back to you, except for some keywords.")
+        send_message(sender_id, "Hi {{user_first_name}}, welcome to bot store. You will find all facebook bots here.")
+        send_image_message(sender_id)
+    elif payload == 'Find a bot':
+        send_message(sender_id, "What is the category of the bot?")
     else:
         # Notify sender that postback was successful
         send_message(sender_id, "Postback called")
