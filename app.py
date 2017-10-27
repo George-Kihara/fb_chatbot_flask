@@ -219,6 +219,16 @@ def send_button_community(recipient_id):
                         "type":"web_url",
                         "url":"https://m.me/Comrades_nature",
                         "title":"Comrades_nature"
+                    },
+                    {
+                        "type":"web_url",
+                        "url":"https://m.me/Botstore",
+                        "title":"Botstore"
+                    },
+                    {
+                        "type":"web_url",
+                        "title":"Ggflaskbot",
+                        "url":"https://m.me/Ggflaskbot"
                     }
                     ]
                 }
