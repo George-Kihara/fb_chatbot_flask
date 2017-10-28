@@ -270,11 +270,13 @@ def send_generic_category(recipient_id):
                             "type": "postback",
                             "title":"Community",
                             "payload":"Community"
-                        },{
+                        }],
+                        "buttons": [{
                             "type": "postback",
                             "title": "Games",
                             "payload": "Games"
-                        },{
+                        }],
+                        "buttons": [{
                             "type": "postback",
                             "title": "Health",
                             "payload": "Health"
