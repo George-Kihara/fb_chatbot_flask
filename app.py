@@ -412,10 +412,19 @@ def received_postback(event):
             "text":"Hi {{user_first_name}}, welcome to this bot."
         }
     })
+    
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    r = requests.post("https://graph.facebook.com/v2.6/me/thread_settings", params=params, headers=headers, data=data)
 
     if payload == 'Get Started':
         # Get Started button was pressed
-        send_message(sender_id, "Welcome {} to bot store. You will find all facebook bots here.".format(data))
+        send_message(sender_id, "Welcome {} to bot store. You will find all facebook bots here.".format(r))
         send_button_message(sender_id)
     elif payload == 'Find a bot':
         send_button_category(sender_id)
