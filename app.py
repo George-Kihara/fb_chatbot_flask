@@ -406,7 +406,7 @@ def received_postback(event):
     # The payload param is a developer-defined field which is set in a postback
     # button for Structured Messages
     payload = event["postback"]["payload"]
-    first_name = event["sender"]["first_name"]
+    first_name = event["sender"]["user_first_name"]
 
     if payload == 'Get Started':
         # Get Started button was pressed
