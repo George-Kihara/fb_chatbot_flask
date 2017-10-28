@@ -406,10 +406,11 @@ def received_postback(event):
     # The payload param is a developer-defined field which is set in a postback
     # button for Structured Messages
     payload = event["postback"]["payload"]
+    first_name = event["sender"]["first_name"]
 
     if payload == 'Get Started':
         # Get Started button was pressed
-        send_message(sender_id, "Welcome {} to bot store. You will find all facebook bots here.".format(user_first_name))
+        send_message(sender_id, "Welcome {} to bot store. You will find all facebook bots here.".format(first_name))
         send_button_message(sender_id)
     elif payload == 'Find a bot':
         send_button_category(sender_id)
