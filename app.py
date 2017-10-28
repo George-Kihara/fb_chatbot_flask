@@ -253,7 +253,7 @@ def send_generic_message(recipient_id):
 
     call_send_api(data)
 
-def send_generic_category(sender_id):
+def send_generic_category(recipient_id):
     data = json.dumps({
         "recipient": {
             "id": recipient_id
