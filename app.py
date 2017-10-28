@@ -406,25 +406,13 @@ def received_postback(event):
     # The payload param is a developer-defined field which is set in a postback
     # button for Structured Messages
     payload = event["postback"]["payload"]
-    data = json.dumps({
-        "setting_type":"greeting",
-        "greeting":{
-            "text":"Hi {{user_first_name}}, welcome to this bot."
-        }
-    })
-    
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
-    headers = {
-        "Content-Type": "application/json"
-    }
-    
-    r = requests.post("https://graph.facebook.com/v2.6/me/thread_settings", params=params, headers=headers)
+    user_details_url = "https://graph.facebook.com/v2.6/%s"%fbid
+    user_details_params = {'fields':'first_name,last_name,profile_pic', 'access_token':os.environ["PAGE_ACCESS_TOKEN"]}
+    user_details = requests.get(user_details_url, user_details_params).json()
 
     if payload == 'Get Started':
         # Get Started button was pressed
-        send_message(sender_id, "Welcome {} to bot store. You will find all facebook bots here.".format(r))
+        send_message(sender_id, "Welcome {} to bot store. You will find all facebook bots here.".format(user_details['first_name']))
         send_button_message(sender_id)
     elif payload == 'Find a bot':
         send_button_category(sender_id)
