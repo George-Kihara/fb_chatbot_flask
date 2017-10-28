@@ -262,7 +262,7 @@ def send_generic_category(recipient_id):
             "attachment": {
                 "type": "template",
                 "payload": {
-                    "template_type": "list",
+                    "template_type": "generic",
                     "elements": [{
                         "title": "Bots category",
                         "subtitle": "Please select one of the categories",
