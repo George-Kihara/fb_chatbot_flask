@@ -409,7 +409,7 @@ def received_postback(event):
 
     if payload == 'Get Started':
         # Get Started button was pressed
-        send_message(sender_id, "Welcome $sender_id to bot store. You will find all facebook bots here.")
+        send_message(sender_id, "Welcome {} to bot store. You will find all facebook bots here.".format(sender_id))
         send_button_message(sender_id)
     elif payload == 'Find a bot':
         send_button_category(sender_id)
