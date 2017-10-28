@@ -282,6 +282,9 @@ def send_generic_message(recipient_id):
     call_send_api(data)
 
 def send_image_message(recipient_id):
+    user_details_url = "https://graph.facebook.com/v2.6/%s"%sender_id
+    user_details_params = {'fields':'first_name,last_name,profile_pic', 'access_token':os.environ["PAGE_ACCESS_TOKEN"]}
+    user_details = requests.get(user_details_url, user_details_params).json()
     
     data = json.dumps({
         "recipient": {
@@ -291,7 +294,7 @@ def send_image_message(recipient_id):
             "attachment": {
                 "type":"image",
                 "payload":{
-                    "url":"https://ibb.co/eKRfLm"
+                    "url": user_details['profile_pic']
                 }
             }
         }
@@ -412,7 +415,8 @@ def received_postback(event):
 
     if payload == 'Get Started':
         # Get Started button was pressed
-        send_message(sender_id, "Welcome {} to bot store. You will find all facebook bots here.".format(user_details['first_name']))
+        send_message(sender_id, "Welcome {} to bot store. You will find all facebook bots here.".format(user_details['first_name, last_name']))
+        send_image_message(sender_id)
         send_button_message(sender_id)
     elif payload == 'Find a bot':
         send_button_category(sender_id)
