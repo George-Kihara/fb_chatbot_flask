@@ -91,34 +91,6 @@ def received_message(event):
         send_message(sender_id, "Message with attachment received")
 
 
-
-
-def send_greeting():
-    #set greeting message on welcome screen
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id))
-
-    data = json.dumps({
-        "setting_type":"greeting",
-        "greeting":{
-            "text":"Hi {{user_first_name}}, welcome to this bot."
-        }
-    })
-    
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
-    headers = {
-        "Content-Type": "application/json"
-    }
-    
-    r = requests.post("https://graph.facebook.com/v2.6/me/thread_settings", params=params, headers=headers, data=data)
-    if r.status_code != 200:
-        log("setting greeting text")
-        log(r.status_code)
-        log(r.text)
-
-    return "ok", 200
-
 def send_message(recipient_id, message_text):
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
@@ -281,6 +253,43 @@ def send_generic_message(recipient_id):
 
     call_send_api(data)
 
+def send_generic_category(sender_id):
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": [{
+                        "title": "Bots category",
+                        "subtitle": "Please select one of the categories",
+                        "buttons": [{
+                            "type": "postback",
+                            "title":"Community",
+                            "payload":"Community"
+                        },{
+                            "type": "postback",
+                            "title": "Games",
+                            "payload": "Games"
+                        },{
+                            "type": "postback",
+                            "title": "Health",
+                            "payload": "Health"
+                        }
+                        ]
+                    }]
+                }
+            }
+        }
+    })
+
+    log("sending template with choices to {recipient}: ".format(recipient=recipient_id))
+
+    call_send_api(data)
+
 def send_image_message(recipient_id):
     user_details_url = "https://graph.facebook.com/v2.6/%s"%sender_id
     user_details_params = {'fields':'first_name,last_name,profile_pic', 'access_token':os.environ["PAGE_ACCESS_TOKEN"]}
@@ -416,8 +425,7 @@ def received_postback(event):
     if payload == 'Get Started':
         # Get Started button was pressed
         send_message(sender_id, "Welcome {} {} to bot store. You will find all facebook bots here.".format(user_details['first_name'], user_details['last_name']))
-        send_message(sender_id, user_details['profile_pic'])
-        send_button_message(sender_id)
+        send_generic_category(sender_id)
     elif payload == 'Find a bot':
         send_button_category(sender_id)
     elif payload == 'Community':
