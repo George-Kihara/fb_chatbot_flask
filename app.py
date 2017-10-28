@@ -420,7 +420,7 @@ def received_postback(event):
         "Content-Type": "application/json"
     }
     
-    r = requests.post("https://graph.facebook.com/v2.6/me/thread_settings", params=params, headers=headers, data=data)
+    r = requests.post("https://graph.facebook.com/v2.6/me/thread_settings", params=params, headers=headers)
 
     if payload == 'Get Started':
         # Get Started button was pressed
